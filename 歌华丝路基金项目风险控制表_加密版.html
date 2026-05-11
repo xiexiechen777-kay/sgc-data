@@ -1,0 +1,1730 @@
+<html lang="zh-CN" style="--paper: #FAFADF; --cream: #F5F0E4; --cream-alt: #EEE9D8; --ink: #1A1A16; --ink-2: #5E5E54; --ink-3: #8A8A7E; --rule: #D5D0C0; --rule-light: #E5E0D2; --hover: #F0ECD8; --radius: 4px; --font-serif: 'Lora','Noto Serif SC','Songti SC','SimSun',serif; --font-body: 'Jost','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; --font-mono: 'JetBrains Mono','SF Mono','Menlo',monospace;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>歌华丝路基金项目风险控制表</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<style>
+/* ========== DESIGN SYSTEM ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&display=swap');
+
+:root {
+  --paper: #FAFADF;
+  --cream: #F5F0E4;
+  --cream-alt: #EEE9D8;
+  --ink: #1A1A16;
+  --ink-2: #5E5E54;
+  --ink-3: #8A8A7E;
+  --rule: #D5D0C0;
+  --rule-light: #E5E0D2;
+  --hover: #F0ECD8;
+  --radius: 4px;
+  --font-serif: 'Lora', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-body: 'Jost', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== HEADER ========== */
+.header {
+  background: var(--cream);
+  color: var(--ink);
+  padding: 0 32px;
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--ink);
+}
+.header h1 {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.header-actions { display: flex; gap: 12px; align-items: center; }
+.sync-status {
+  font-size: 11px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+}
+.sync-dot {
+  width: 5px; height: 5px; border-radius: 50%; display: inline-block;
+}
+.sync-dot.on  { background: var(--ink); }
+.sync-dot.off { background: var(--ink-3); }
+
+/* ========== FLOATING THEME SWITCHER ========== */
+.theme-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.theme-float:hover { opacity: 1; }
+.theme-float-label {
+  font-size: 10px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+.theme-float select {
+  padding: 3px 6px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 11px;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--ink-2);
+  max-width: 130px;
+}
+.theme-float select:focus { border-color: var(--ink); }
+.theme-float select option { background: var(--cream); color: var(--ink); }
+
+/* ========== BUTTONS ========== */
+.btn {
+  padding: 6px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  background: transparent;
+  color: var(--ink);
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: #33332E; border-color: #33332E; }
+.btn-outline { background: transparent; color: var(--ink-2); border-color: var(--ink-3); }
+.btn-outline:hover { color: var(--ink); border-color: var(--ink); background: transparent; }
+.btn-export { background: transparent; color: var(--ink); border-color: var(--rule); }
+.btn-export:hover { background: var(--hover); border-color: var(--ink); }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
+.url-input {
+  padding: 5px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 11px;
+  outline: none;
+  font-family: var(--font-mono);
+  background: var(--cream);
+  color: var(--ink-2);
+  width: 220px;
+  transition: all 0.15s;
+}
+.url-input:focus { border-color: var(--ink); background: var(--paper); }
+.url-input::placeholder { color: var(--ink-3); }
+
+/* ========== VIEW TOGGLE ========== */
+.view-toggle {
+  display: flex;
+  background: var(--cream-alt);
+  border-radius: 3px;
+  padding: 2px;
+  border: 1px solid var(--rule);
+}
+.view-btn {
+  padding: 5px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-3);
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+.view-btn.active {
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* ========== SUMMARY ROW ========== */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  margin: 20px 28px 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.summary-card {
+  background: var(--cream);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.summary-card:hover { background: var(--hover); }
+.summary-card--alert .summary-num { font-weight: 700; }
+.summary-card--warn .summary-num  { font-weight: 600; font-style: italic; }
+.summary-num {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.summary-label {
+  font-size: 11px;
+  color: var(--ink-2);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ========== TABS ========== */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  padding: 0 28px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+  align-items: center;
+  margin-top: 20px;
+}
+.tab {
+  padding: 10px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink-2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.tab .count { font-size: 10px; margin-left: 3px; opacity: 0.5; font-family: var(--font-mono); }
+.tab.active .count { opacity: 1; }
+.tab-right { display: flex; gap: 10px; align-items: center; padding-right: 4px; margin-left: auto; }
+
+/* Sub-tabs */
+.sub-tab-bar {
+  display: flex;
+  gap: 0;
+  padding: 0 28px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+  align-items: center;
+}
+.sub-tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--ink-2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  font-weight: 400;
+}
+.sub-tab:hover { color: var(--ink); }
+.sub-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.sub-tab .count { font-size: 10px; margin-left: 2px; opacity: 0.5; font-family: var(--font-mono); }
+.sub-tab.active .count { opacity: 1; }
+.sub-tab.star { font-style: italic; }
+.sub-tab.star.active { border-bottom-color: var(--ink); }
+
+/* ========== TOOLBAR ========== */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  padding: 12px 28px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-box {
+  flex: 1;
+  min-width: 180px;
+  padding: 7px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 13px;
+  outline: none;
+  font-family: var(--font-body);
+  background: var(--cream);
+  transition: all 0.15s;
+  color: var(--ink);
+}
+.search-box:focus { border-color: var(--ink); background: var(--paper); }
+.search-box::placeholder { color: var(--ink-3); }
+.filter-select {
+  padding: 7px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 13px;
+  outline: none;
+  background: var(--cream);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+  color: var(--ink);
+}
+.filter-select:focus { border-color: var(--ink); }
+.result-count {
+  font-size: 11px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+}
+
+/* ========== TABLE (Ledger) ========== */
+.table-container {
+  margin: 0 28px 24px;
+  background: var(--cream);
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.table-wrapper { overflow-x: auto; max-height: 56vh; overflow-y: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 900px;
+  table-layout: fixed;
+}
+thead { position: sticky; top: 0; z-index: 2; }
+th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  white-space: normal;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.03em;
+  font-family: var(--font-body);
+}
+th:hover { background: #33332E; }
+th .sort-icon { margin-left: 2px; font-size: 10px; opacity: 0.6; }
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule-light);
+  vertical-align: top;
+  font-size: 13px;
+  color: var(--ink);
+  white-space: pre-line;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+td:first-child, th:first-child {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+tr:last-child td { border-bottom: none; }
+.ci {
+  max-width: 100%;
+  white-space: pre-line;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+tr:hover td { background: var(--hover); }
+
+/* 权利矩阵条款字段统一换行 — 兜底 */
+.rights-matrix td,
+.matrix-table td,
+.repurchase-right,
+.rights-text,
+.ci--repurchase {
+  white-space: pre-line !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.6;
+}
+
+/* ========== BADGES (Monochrome) ========== */
+.badge {
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+.badge-danger {
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+}
+.badge-warning {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  font-weight: 500;
+}
+.badge-success {
+  background: var(--cream-alt);
+  color: var(--ink-2);
+  font-weight: 400;
+}
+.badge-info {
+  background: transparent;
+  color: var(--ink-2);
+  font-style: italic;
+  font-weight: 400;
+}
+.badge-gray {
+  background: transparent;
+  color: var(--ink-3);
+  border: 1px solid var(--rule);
+}
+
+/* ========== CARD GRID ========== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+  padding: 20px 28px 28px;
+}
+.project-card {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.project-card:hover {
+  border-color: var(--ink);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.project-card.starred {
+  border-color: var(--ink);
+  border-width: 2px;
+}
+
+/* Card internals */
+.card-main { padding: 16px 18px; }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.card-star {
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--rule);
+  transition: all 0.15s;
+  user-select: none;
+  font-style: normal;
+}
+.card-star.active { color: var(--ink); }
+.card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; align-items: center; }
+.card-biz-kw {
+  font-size: 10px;
+  color: var(--ink-2);
+  background: var(--cream-alt);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border: 1px solid var(--rule);
+}
+.card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px 12px;
+  margin-bottom: 10px;
+}
+.card-meta-item { font-size: 12px; display: flex; flex-direction: column; }
+.card-meta-item .label {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  margin-bottom: 1px;
+}
+.card-meta-item .value {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* Card sections */
+.card-section {
+  padding: 10px 18px;
+  border-top: 1px solid var(--rule-light);
+  font-size: 12px;
+}
+.card-section-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-2);
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+.card-section .line {
+  margin-bottom: 3px;
+  display: flex;
+  gap: 6px;
+  color: var(--ink);
+  flex-wrap: wrap;
+  word-break: break-word;
+}
+.card-section .dot { color: var(--ink-3); flex-shrink: 0; }
+
+/* ========== EMPTY STATE & DROP ZONE ========== */
+.empty-state { text-align: center; padding: 64px 20px; color: var(--ink-2); }
+.empty-state .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+.empty-state h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.drop-zone {
+  border: 1px dashed var(--ink-3);
+  border-radius: var(--radius);
+  padding: 48px;
+  text-align: center;
+  margin: 36px 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--cream);
+}
+.drop-zone:hover { border-color: var(--ink); background: var(--hover); }
+.drop-zone .icon { font-size: 36px; margin-bottom: 10px; opacity: 0.4; }
+.drop-zone p { font-size: 14px; color: var(--ink-2); }
+
+/* ========== FOOTER ========== */
+.footer {
+  text-align: center;
+  padding: 14px;
+  font-size: 11px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.hidden { display: none; }
+
+/* ========== PASSWORD GATE (encrypted export) ========== */
+.pw-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+}
+.pw-box {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 40px 48px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+.pw-box h2 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.pw-box .pw-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 20px;
+}
+.pw-box input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-size: 14px;
+  outline: none;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+.pw-box input:focus { border-color: var(--ink); }
+.pw-box .pw-err {
+  font-size: 11px;
+  color: var(--ink-2);
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .summary-row { margin: 16px 14px 0; }
+  .tab-bar, .sub-tab-bar, .toolbar { padding: 8px 14px; }
+  .table-container, .card-grid { margin: 0 14px 16px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .header { padding: 0 16px; }
+  .drop-zone { margin: 24px 14px; padding: 32px; }
+}
+</style>
+<style id="themeBadgeCSS">.badge-danger{background:var(--ink);color:var(--paper);font-weight:600;}.badge-warning{background:transparent;color:var(--ink);border:1px solid var(--ink);font-weight:500;}.badge-success{background:var(--cream-alt);color:var(--ink-2);font-weight:400;}.badge-info{background:transparent;color:var(--ink-2);font-style:italic;font-weight:400;}.badge-gray{background:transparent;color:var(--ink-3);border:1px solid var(--rule);}.summary-card--alert .summary-num{font-weight:700;}.summary-card--warn .summary-num{font-weight:600;font-style:italic;}th{background:var(--ink);color:var(--paper);}th:hover{filter:brightness(1.3);}.tab-bar{background:var(--paper);}.toolbar{background:var(--paper);}.header{border-bottom:1px solid var(--ink);background:var(--cream);color:var(--ink);}.btn-primary{background:var(--ink);color:var(--paper);}.btn:hover{background:var(--ink);color:var(--paper);}.btn-outline:hover{background:transparent;color:var(--ink);border-color:var(--ink);}.search-box{background:var(--cream);}.search-box:focus{background:var(--paper);}.filter-select{background:var(--cream);}.sub-tab-bar{background:var(--cream);}.btn{color:var(--ink);}.view-toggle{background:var(--cream-alt);border:1px solid var(--rule);}.view-btn.active{background:var(--paper);}.drop-zone{background:var(--cream);}.table-container{background:var(--cream);}.summary-card{background:var(--cream);}.project-card{background:var(--cream);}.project-card:hover{border-color:var(--ink);}.project-card.starred{border-color:var(--ink);border-width:2px;}</style></head>
+<body>
+
+<div class="header">
+  <h1>歌华丝路基金项目风险控制表</h1>
+  <div class="header-actions">
+    <span class="sync-status" id="syncStatus">
+      <span class="sync-dot on" id="syncDot"></span>
+      <span id="syncText">已同步 17:40:01</span>
+    </span>
+    
+    <button class="btn btn-primary" id="btnSelect" onclick="selectFile()">重新选择</button>
+    <button class="btn btn-outline btn-sm" id="btnRefresh" onclick="refreshData()">手动刷新</button>
+    
+  </div>
+</div>
+
+<div id="dropZone" class="drop-zone hidden" onclick="selectFile()">
+  <div class="icon">📊</div>
+  <p>拖拽 Excel 文件到此处，或点击选择文件</p>
+  <p style="font-size:12px;margin-top:6px;">选择「歌华丝路已投项目总览.xlsx」后自动同步</p>
+</div>
+
+<div id="mainContent" class="">
+  <div class="summary-row" id="summaryRow">
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('全部')"><div class="summary-num">13</div><div class="summary-label">全部项目</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('已投')"><div class="summary-num">10</div><div class="summary-label">已投</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('尽调中')"><div class="summary-num">0</div><div class="summary-label">尽调中</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('终止')"><div class="summary-num">0</div><div class="summary-label">终止</div></div>
+    <div class="summary-card summary-card--alert"><div class="summary-num">14</div><div class="summary-label">高风险项</div></div>
+    <div class="summary-card summary-card--warn"><div class="summary-num">0</div><div class="summary-label">临近到期</div></div>
+    <div class="summary-card summary-card--alert"><div class="summary-num">5</div><div class="summary-label">已触发/逾期</div></div>
+  </div>
+  <div class="tab-bar" id="tabBar"><div class="tab active" onclick="switchSheet('投资概览')">投资概览<span class="count">13</span></div><div class="tab " onclick="switchSheet('特殊股东权利矩阵')">特殊股东权利矩阵<span class="count">13</span></div><div class="tab " onclick="switchSheet('风险点跟踪')">风险点跟踪<span class="count">27</span></div><div class="tab " onclick="switchSheet('关键日期提醒')">关键日期提醒<span class="count">10</span></div><div class="tab-right">
+    <span style="font-size:12px;color:var(--ink-2);">视图</span>
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="table" onclick="setView('table')">表格</button>
+      <button class="view-btn " data-view="card" onclick="setView('card')">卡片</button>
+    </div>
+    <button class="btn btn-export btn-sm" onclick="exportExcel()">导出 Excel</button>
+  </div></div>
+  <div class="sub-tab-bar" id="subTabBar"><div class="sub-tab active" onclick="setTab('全部')">全部<span class="count">13</span></div><div class="sub-tab " onclick="setTab('已投')">已投<span class="count">10</span></div><div class="sub-tab " onclick="setTab('已退')">已退<span class="count">3</span></div><div class="sub-tab star " onclick="setTab('★')">★ 我的关注<span class="count" id="starCount">0</span></div></div>
+  <div class="toolbar">
+    <input type="text" class="search-box" id="searchInput" placeholder="搜索项目..." oninput="applyFilters()">
+    <select class="filter-select" id="statusFilter" onchange="applyFilters()"><option value="">全部状态</option><option value="正常">正常</option><option value="触发对赌/回购">触发对赌/回购</option><option value="关注中">关注中</option></select>
+    <span class="result-count" id="resultCount">13 条结果</span>
+  </div>
+  <div class="table-container"><div class="table-wrapper" id="tableWrapper"><table><thead><tr><th>序号</th><th>项目名称</th><th>公司全称</th><th>官网</th><th>主营业务</th><th>统一社会信用代码</th><th>投资时间</th><th>轮次</th><th>投前估值
+（万元）</th><th>投资金额
+（万元）</th><th>持股比例（目前）</th><th>投资方式</th><th>最新融资轮次</th><th>项目阶段</th><th>当前状态</th><th>备注</th></tr></thead><tbody><tr><td><div class="ci">1</div></td><td><div class="ci">凌空天行</div></td><td><div class="ci">北京凌空天行科技有限责任公司</div></td><td><div class="ci">www.spacetransportation.com.cn</div></td><td><div class="ci">商业航天可重复使用火箭研制与发射服务</div></td><td><div class="ci">91110105051390889B</div></td><td><div class="ci">2021-04</div></td><td><div class="ci">A++</div></td><td><div class="ci"></div></td><td><div class="ci">10,000</div></td><td><div class="ci">未公示</div></td><td><div class="ci">增资+受让老股</div></td><td><div class="ci">C轮（2025-11-25，1亿元）</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">[企查查同步 20260509] 企查查工商未公示</div></td></tr><tr><td><div class="ci">2</div></td><td><div class="ci">东营昆宇</div></td><td><div class="ci">昆宇电源股份有限公司</div></td><td><div class="ci">www.cospowers.com</div></td><td><div class="ci">锂电储能系统整体解决方案提供商</div></td><td><div class="ci">91370500MA3QFECM2B</div></td><td><div class="ci">2021-04</div></td><td><div class="ci">C1/C2</div></td><td><div class="ci"></div></td><td><div class="ci">7,000</div></td><td><div class="ci">1.7068%</div></td><td><div class="ci">增资</div></td><td><div class="ci">E+轮（2024-01-12）</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">触发对赌/回购</div></td><td><div class="ci">对赌已触发，回购条款已触发；2023年签署补充协议清理特殊权利; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">3</div></td><td><div class="ci">宁德智享</div></td><td><div class="ci">福建宁德智享无限科技有限公司</div></td><td><div class="ci">无独立官网（品牌：小哈换电）</div></td><td><div class="ci">两轮及三轮电动车换电服务（小哈换电）</div></td><td><div class="ci">91350900MA32X09W3F</div></td><td><div class="ci">2020-06</div></td><td><div class="ci">A+</div></td><td><div class="ci">150,000</div></td><td><div class="ci">10,000</div></td><td><div class="ci">3.5903%</div></td><td><div class="ci">增资</div></td><td><div class="ci">股权融资（2021-07-30）</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">[企查查同步 20260509] 企查查无股东数据; [企查查校验 2026-05-10] 需加'福建'前缀</div></td></tr><tr><td><div class="ci">4</div></td><td><div class="ci">迅策科技</div></td><td><div class="ci">深圳迅策科技股份有限公司</div></td><td><div class="ci">www.xuncetech.com</div></td><td><div class="ci">实时大数据基础设施及分析解决方案</div></td><td><div class="ci">91440300MA5D9X5Q1H</div></td><td><div class="ci">2021-05</div></td><td><div class="ci">C2/D2</div></td><td><div class="ci">180,000</div></td><td><div class="ci">7,700</div></td><td><div class="ci">3.1050%</div></td><td><div class="ci">增资+受让老股</div></td><td><div class="ci">Pre-IPO（2023-12-14，2.2亿元）</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">2023年D轮追加投资；实控人可能变更风险; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">5</div></td><td><div class="ci">钱宝</div></td><td><div class="ci">重庆鲲鹏支付服务有限公司</div></td><td><div class="ci">www.globebill.com</div></td><td><div class="ci">银行卡收单、互联网支付及跨境支付服务</div></td><td><div class="ci">915001125700284516</div></td><td><div class="ci">2021-07</div></td><td><div class="ci"></div></td><td><div class="ci">600,000</div></td><td><div class="ci">12,000</div></td><td><div class="ci">2.0000%</div></td><td><div class="ci">待确认</div></td><td><div class="ci">A轮（2023-01-12）</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">关注中</div></td><td><div class="ci">股权结构不稳定；银行卡收单业务合规风险; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">6</div></td><td><div class="ci">佰才邦</div></td><td><div class="ci">北京佰才邦技术股份有限公司</div></td><td><div class="ci">www.baicells.com</div></td><td><div class="ci">无线通信设备与技术解决方案提供商</div></td><td><div class="ci">911101080967661063</div></td><td><div class="ci">2021</div></td><td><div class="ci">C2</div></td><td><div class="ci"></div></td><td><div class="ci">3,000</div></td><td><div class="ci">0.8962%</div></td><td><div class="ci">增资</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-gray">已退</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">[企查查同步 20260509] 企查查（另有丝路五期0.0277%）</div></td></tr><tr><td><div class="ci">7</div></td><td><div class="ci">中兴新材</div></td><td><div class="ci">深圳中兴新材技术股份有限公司</div></td><td><div class="ci">www.zimt.com.cn</div></td><td><div class="ci">锂离子电池隔膜研发、生产与销售</div></td><td><div class="ci">91440300052779933X</div></td><td><div class="ci">2022-02</div></td><td><div class="ci">C</div></td><td><div class="ci">200,000</div></td><td><div class="ci">2,000</div></td><td><div class="ci">0.7722%</div></td><td><div class="ci">增资</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">已办理工商登记; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">8</div></td><td><div class="ci">华策数据</div></td><td><div class="ci">北京华隐熵策数据科技有限公司</div></td><td><div class="ci">www.huacedata.com</div></td><td><div class="ci">数据科技、隐私计算与金融AI解决方案</div></td><td><div class="ci">91110108MA04EKXT9M</div></td><td><div class="ci">2022-07</div></td><td><div class="ci">A</div></td><td><div class="ci">27,500</div></td><td><div class="ci">2,500</div></td><td><div class="ci">7.4687%</div></td><td><div class="ci">增资</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">股权融资需股东会决议；账期长回款慢; [企查查同步 20260509] 企查查无股东数据; [企查查校验 2026-05-10] 公司全称完全变更，非深圳实体</div></td></tr><tr><td><div class="ci">9</div></td><td><div class="ci">佳腾电业</div></td><td><div class="ci">佳腾电业（赣州）股份有限公司</div></td><td><div class="ci">www.wellascent.com</div></td><td><div class="ci">扁平电磁线（扁线）研发生产销售</div></td><td><div class="ci">913607007947641166</div></td><td><div class="ci">2022-10</div></td><td><div class="ci">C轮后</div></td><td><div class="ci">80,000</div></td><td><div class="ci">2,292</div></td><td><div class="ci">2.8662%</div></td><td><div class="ci">受让老股</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-gray">已退</span></div></td><td><div class="ci">关注中</div></td><td><div class="ci">实控人出资瑕疵；前轮对赌已触发；产线不合规; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">10</div></td><td><div class="ci">欣视界</div></td><td><div class="ci">深圳欣界能源科技股份有限公司</div></td><td><div class="ci">www.inxtech.com.cn</div></td><td><div class="ci">高能量锂金属固态电池研发与生产</div></td><td><div class="ci">91440300MA5G3YRR2P</div></td><td><div class="ci">2023-02</div></td><td><div class="ci">Pre-A / Pre-A++</div></td><td><div class="ci">48,000</div></td><td><div class="ci">3,000</div></td><td><div class="ci">2.5820%</div></td><td><div class="ci">增资</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">两轮投资；实控人未离职创业风险；租赁瑕疵; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">11</div></td><td><div class="ci">领慧立芯</div></td><td><div class="ci">苏州领慧立芯科技有限公司</div></td><td><div class="ci">www.legendsemi.com</div></td><td><div class="ci">模拟及混合信号芯片设计（信号链+MCU）</div></td><td><div class="ci">91320594MA22MFFK2H</div></td><td><div class="ci">2023-03</div></td><td><div class="ci">A</div></td><td><div class="ci">108,000</div></td><td><div class="ci">800</div></td><td><div class="ci">未公示</div></td><td><div class="ci">待确认</div></td><td><div class="ci">B轮（2025-11-05，约亿元）</div></td><td><div class="ci"><span class="badge badge-gray">已退</span></div></td><td><div class="ci">正常</div></td><td><div class="ci">历史沿革需核实；员工持股平台代持疑云; [企查查同步 20260509] 企查查未显示歌华关联股东; [企查查校验 2026-05-10] 33名股东中无歌华直接持股，可能通过其他实体间接持有或代持</div></td></tr><tr><td><div class="ci">12</div></td><td><div class="ci">航星传动</div></td><td><div class="ci">北京航星传动科技有限公司</div></td><td><div class="ci">待补充</div></td><td><div class="ci">航天航空航海伺服系统研发生产</div></td><td><div class="ci">911103025712008236</div></td><td><div class="ci">2023-03</div></td><td><div class="ci">Pre-A</div></td><td><div class="ci">34,000</div></td><td><div class="ci">2,000</div></td><td><div class="ci">4.5338%</div></td><td><div class="ci">增资</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">关注中</div></td><td><div class="ci">核心团队离职/竞业限制风险；未取得军工三证; [企查查同步 20260509] 企查查</div></td></tr><tr><td><div class="ci">13</div></td><td><div class="ci">欧冶</div></td><td><div class="ci">深圳市欧冶半导体有限公司</div></td><td><div class="ci">www.oritek.com.cn</div></td><td><div class="ci">智能汽车系统级SoC芯片及解决方案</div></td><td><div class="ci">91440300MA5H65RL1L</div></td><td><div class="ci">2023</div></td><td><div class="ci">A3</div></td><td><div class="ci">142,000</div></td><td><div class="ci">2,000</div></td><td><div class="ci">0.9482%</div></td><td><div class="ci">待确认</div></td><td><div class="ci">待补充</div></td><td><div class="ci"><span class="badge badge-success">已投</span></div></td><td><div class="ci">关注中</div></td><td><div class="ci">实控人曾受刑事处罚且执行完毕未满三年；公司治理不符合公司法要求; [企查查同步 20260509] 企查查无股东数据; [企查查校验 2026-05-10] 需加'深圳'前缀</div></td></tr></tbody></table></div></div>
+  <div class="card-grid hidden" id="cardGrid"></div>
+</div>
+
+<div class="footer">🔒 加密版 · 输入密码后解密数据 · 数据不在服务器留存</div>
+
+<div class="theme-float" id="themeFloat">
+  <span class="theme-float-label">风格</span>
+  <select id="themeSelect" onchange="switchTheme(this.value)" title="切换风格"><option value="monochrome">Monochrome · 象牙账簿</option><option value="blue-pro">Blue Professional · 蓝调</option><option value="soft-editorial">Soft Editorial · 暖纸</option><option value="cobalt">Cobalt Grid · 钴蓝</option><option value="mat">Mat · 暗松绿</option></select>
+</div>
+
+<script>
+// ==================== STATE ====================
+let workbook = null;
+let sheetData = [];
+let fileHandle = null;
+let lastModified = 0;
+let pollTimer = null;
+let manualFile = null; // retained reference for manual file polling
+let currentSheetName = '投资概览';
+let currentTab = '全部';
+let currentView = 'table';
+let starred = JSON.parse(localStorage.getItem('sgc_starred') || '[]');
+const POLL_INTERVAL = 30000;
+
+const dangerKW = ['已触发','已违约','已逾期','触发','违约','逾期'];
+const warningKW = ['关注中','临近到期','待确认','待补充'];
+const successKW = ['正常','已解决','已投'];
+
+function statusBadge(text) {
+  if (!text) return '';
+  const s = String(text);
+  let cls = 'badge-gray';
+  if (dangerKW.some(k => s.includes(k))) cls = 'badge-danger';
+  else if (warningKW.some(k => s.includes(k))) cls = 'badge-warning';
+  else if (successKW.some(k => s.includes(k))) cls = 'badge-success';
+  return `<span class="badge ${cls}">${escapeHtml(s)}</span>`;
+}
+
+function phaseBadge(phase) {
+  const map = { '已投': 'badge-success', '尽调中': 'badge-warning', '终止': 'badge-danger', '储备': 'badge-info' };
+  return `<span class="badge ${map[phase]||'badge-gray'}">${phase||'未知'}</span>`;
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div'); d.textContent = String(str||''); return d.innerHTML;
+}
+
+function findColIdx(header, keywords) {
+  for (let i = 0; i < header.length; i++) {
+    const h = String(header[i] || '');
+    if (keywords.some(k => h.includes(k))) return i;
+  }
+  return -1;
+}
+
+function findSheet(namePat) { return sheetData.find(s => s.name.includes(namePat)); }
+
+// Detect the real header row (skip title/subtitle rows from Excel)
+const KNOWN_HEADERS = ['序号','项目名称','风险类别','日期类型','投资主体','项目阶段'];
+
+function findHeaderRow(rows) {
+  for (let i = 0; i < Math.min(rows.length, 10); i++) {
+    const row = rows[i];
+    if (!row || row.length === 0) continue;
+    const cells = row.filter(c => c !== '' && c !== null && c !== undefined);
+    if (cells.length < 2) continue;
+    const matchCount = cells.filter(c => KNOWN_HEADERS.some(h => String(c).includes(h))).length;
+    if (matchCount >= 2) return i;
+  }
+  return 0; // fallback: first row
+}
+
+function updateStarBadge() {
+  const badge = document.getElementById('starCount');
+  if (badge) badge.textContent = starred.length;
+}
+
+
+	// ==================== THEME ENGINE ====================
+	const THEMES = {
+		'monochrome': {
+			name: 'Monochrome · 象牙账簿',
+			vars: {
+				'--paper': '#FAFADF', '--cream': '#F5F0E4', '--cream-alt': '#EEE9D8',
+				'--ink': '#1A1A16', '--ink-2': '#5E5E54', '--ink-3': '#8A8A7E',
+				'--rule': '#D5D0C0', '--rule-light': '#E5E0D2', '--hover': '#F0ECD8',
+				'--radius': '4px',
+				'--font-serif': "'Lora','Noto Serif SC','Songti SC','SimSun',serif",
+				'--font-body': "'Jost','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif",
+				'--font-mono': "'JetBrains Mono','SF Mono','Menlo',monospace"
+			},
+			scheme: 'light'
+		},
+		'blue-pro': {
+			name: 'Blue Professional · 蓝调',
+			vars: {
+				'--paper': '#FDFAE7', '--cream': '#FFFEF5', '--cream-alt': '#F5F2DC',
+				'--ink': '#111111', '--ink-2': '#4A4A99', '--ink-3': '#6B6B6B',
+				'--rule': '#D5D2C0', '--rule-light': '#E8E5D8', '--hover': '#F0EDE0',
+				'--radius': '6px',
+				'--font-serif': "'Space Grotesk','Noto Sans SC','PingFang SC',sans-serif",
+				'--font-body': "'Inter','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif",
+				'--font-mono': "'JetBrains Mono','SF Mono','Menlo',monospace"
+			},
+			scheme: 'light'
+		},
+		'soft-editorial': {
+			name: 'Soft Editorial · 暖纸',
+			vars: {
+				'--paper': '#F2EEDF', '--cream': '#F8F4E8', '--cream-alt': '#EDE7D5',
+				'--ink': '#2A241B', '--ink-2': '#8C6A6A', '--ink-3': '#A09888',
+				'--rule': '#D8D0C0', '--rule-light': '#E5DDD0', '--hover': '#EDE6D6',
+				'--radius': '4px',
+				'--font-serif': "'Lora','Noto Serif SC','Songti SC',serif",
+				'--font-body': "'Work Sans','Noto Sans SC','PingFang SC',sans-serif",
+				'--font-mono': "'JetBrains Mono','SF Mono','Menlo',monospace"
+			},
+			scheme: 'light'
+		},
+		'cobalt': {
+			name: 'Cobalt Grid · 钴蓝',
+			vars: {
+				'--paper': '#F0EBDE', '--cream': '#F6F2E8', '--cream-alt': '#EAE4D4',
+				'--ink': '#111B3E', '--ink-2': '#1F2BE0', '--ink-3': '#6E7288',
+				'--rule': '#D4D0C4', '--rule-light': '#E2DED4', '--hover': '#EDE8DA',
+				'--radius': '3px',
+				'--font-serif': "'Newsreader','Noto Serif SC','Songti SC',serif",
+				'--font-body': "'Inter','Noto Sans SC','PingFang SC',sans-serif",
+				'--font-mono': "'DM Mono','JetBrains Mono','SF Mono',monospace"
+			},
+			scheme: 'light'
+		},
+		'mat': {
+			name: 'Mat · 暗松绿',
+			vars: {
+				'--paper': '#1E2822', '--cream': '#232E26', '--cream-alt': '#2E3D30',
+				'--ink': '#F0E8D2', '--ink-2': '#B8B090', '--ink-3': '#7A8A7A',
+				'--rule': '#3E4D40', '--rule-light': '#344438', '--hover': '#2A3830',
+				'--radius': '4px',
+				'--font-serif': "'Lora','Noto Serif SC','Songti SC',serif",
+				'--font-body': "'DM Sans','Noto Sans SC','PingFang SC',sans-serif",
+				'--font-mono': "'DM Mono','JetBrains Mono','SF Mono',monospace"
+			},
+			scheme: 'dark'
+		}
+	};
+
+	const BADGE_CSS = {
+		light: ".badge-danger{background:var(--ink);color:var(--paper);font-weight:600;}"+
+			".badge-warning{background:transparent;color:var(--ink);border:1px solid var(--ink);font-weight:500;}"+
+			".badge-success{background:var(--cream-alt);color:var(--ink-2);font-weight:400;}"+
+			".badge-info{background:transparent;color:var(--ink-2);font-style:italic;font-weight:400;}"+
+			".badge-gray{background:transparent;color:var(--ink-3);border:1px solid var(--rule);}"+
+			".summary-card--alert .summary-num{font-weight:700;}"+
+			".summary-card--warn .summary-num{font-weight:600;font-style:italic;}"+
+			"th{background:var(--ink);color:var(--paper);}"+
+			"th:hover{filter:brightness(1.3);}"+
+			".tab-bar{background:var(--paper);}.toolbar{background:var(--paper);}"+
+			".header{border-bottom:1px solid var(--ink);background:var(--cream);color:var(--ink);}"+
+			".btn-primary{background:var(--ink);color:var(--paper);}"+
+			".btn:hover{background:var(--ink);color:var(--paper);}"+
+			".btn-outline:hover{background:transparent;color:var(--ink);border-color:var(--ink);}"+
+			".search-box{background:var(--cream);}.search-box:focus{background:var(--paper);}"+
+			".filter-select{background:var(--cream);}.sub-tab-bar{background:var(--cream);}"+
+			".btn{color:var(--ink);}"+
+			".view-toggle{background:var(--cream-alt);border:1px solid var(--rule);}"+
+			".view-btn.active{background:var(--paper);}"+
+			".drop-zone{background:var(--cream);}.table-container{background:var(--cream);}"+
+			".summary-card{background:var(--cream);}.project-card{background:var(--cream);}"+
+			".project-card:hover{border-color:var(--ink);}"+
+			".project-card.starred{border-color:var(--ink);border-width:2px;}",
+		dark: ".badge-danger{background:var(--ink);color:var(--paper);font-weight:600;}"+
+			".badge-warning{background:transparent;color:var(--ink);border:1px solid var(--ink);font-weight:500;}"+
+			".badge-success{background:var(--cream-alt);color:var(--ink-2);font-weight:400;}"+
+			".badge-info{background:transparent;color:var(--ink-2);font-style:italic;font-weight:400;}"+
+			".badge-gray{background:transparent;color:var(--ink-3);border:1px solid var(--rule);}"+
+			".summary-card--alert .summary-num{font-weight:700;}"+
+			".summary-card--warn .summary-num{font-weight:600;font-style:italic;}"+
+			"th{background:var(--ink);color:var(--paper);}"+
+			"th:hover{filter:brightness(0.85);}"+
+			".tab-bar{background:var(--paper);}.toolbar{background:var(--paper);}"+
+			".header{border-bottom:1px solid var(--rule);background:var(--cream);color:var(--ink);}"+
+			".btn-primary{background:var(--ink);color:var(--paper);}"+
+			".btn:hover{background:var(--ink);color:var(--paper);}"+
+			".btn-outline:hover{background:transparent;color:var(--ink);border-color:var(--ink);}"+
+			".search-box{background:var(--cream);}.search-box:focus{background:var(--paper);}"+
+			".filter-select{background:var(--cream);}.sub-tab-bar{background:var(--cream);}"+
+			".btn{color:var(--ink);}"+
+			".view-toggle{background:var(--cream-alt);border:1px solid var(--rule);}"+
+			".view-btn.active{background:var(--paper);}"+
+			".drop-zone{background:var(--cream);}.table-container{background:var(--cream);}"+
+			".summary-card{background:var(--cream);}.project-card{background:var(--cream);}"+
+			".project-card:hover{border-color:var(--ink);}"+
+			".project-card.starred{border-color:var(--ink);border-width:2px;}"
+	};
+
+	function applyTheme(name) {
+		const theme = THEMES[name] || THEMES['monochrome'];
+		const root = document.documentElement;
+		Object.entries(theme.vars).forEach(([k, v]) => root.style.setProperty(k, v));
+		let badgeEl = document.getElementById('themeBadgeCSS');
+		if (!badgeEl) {
+			badgeEl = document.createElement('style');
+			badgeEl.id = 'themeBadgeCSS';
+			document.head.appendChild(badgeEl);
+		}
+		badgeEl.textContent = BADGE_CSS[theme.scheme] || BADGE_CSS.light;
+		const sel = document.getElementById('themeSelect');
+		if (sel) sel.value = name;
+		localStorage.setItem('sgc_theme', name);
+	}
+
+	function initThemeSelector() {
+		const sel = document.getElementById('themeSelect');
+		if (!sel) return;
+		sel.innerHTML = Object.entries(THEMES).map(([k, t]) =>
+			'<option value="'+k+'">'+t.name+'</option>'
+		).join('');
+		const saved = localStorage.getItem('sgc_theme') || 'monochrome';
+		sel.value = saved;
+		applyTheme(saved);
+	}
+// ==================== FILE HANDLING ====================
+async function selectFile() {
+  if (window.showOpenFilePicker) {
+    try {
+      const [handle] = await window.showOpenFilePicker({
+        types: [{ description: 'Excel', accept: { 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] } }]
+      });
+      fileHandle = handle;
+      lastModified = (await handle.getFile()).lastModified;
+      await loadFromHandle();
+      startPolling();
+      return;
+    } catch(e) {}
+  }
+  document.getElementById('fileInput').click();
+}
+
+function handleFileEvent(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  manualFile = file;
+  lastModified = file.lastModified;
+  readFile(file);
+  document.getElementById('btnRefresh').classList.remove('hidden');
+  updateSyncStatus(true);
+  startPolling();
+}
+
+async function loadFromHandle() {
+  const file = await fileHandle.getFile();
+  readFile(file);
+  updateSyncStatus(true);
+}
+
+function readFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      workbook = XLSX.read(data, { type: 'array' });
+      sheetData = [];
+      const skipNames = ['使用说明'];
+      for (const name of workbook.SheetNames) {
+        if (skipNames.includes(name)) continue;
+        const ws = workbook.Sheets[name];
+        const raw = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+        if (raw.length === 0) continue;
+        const hIdx = findHeaderRow(raw);
+        // Check for per-sheet column visibility control row
+     let sheetVis = null;
+     if (hIdx > 0) {
+       for (let offset = 1; offset <= 2; offset++) {
+         if (hIdx - offset < 0) continue;
+         const ctrlRow = raw[hIdx - offset];
+         if (ctrlRow && ctrlRow.some(c => { const v = String(c).trim(); return v === '是' || v === '否'; })) {
+           sheetVis = ctrlRow.map(c => String(c).trim() !== '否');
+           break;
+         }
+       }
+     }
+     const rows = raw.slice(hIdx);
+        if (rows.length > 1) sheetData.push({ name, rows, columnVisible: sheetVis });
+      }
+      if (sheetData.length === 0) { alert('未找到有效数据Sheet'); return; }
+      buildUI();
+      document.getElementById('dropZone').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+      document.getElementById('btnSelect').textContent = '重新选择';
+      document.getElementById('btnEncrypt').style.display = '';
+    } catch(err) {
+      alert('读取 Excel 失败: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+
+// ==================== REMOTE URL FETCH ====================
+async function fetchFromUrl(url, isRefresh) {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.arrayBuffer();
+    const file = new File([data], 'remote.xlsx');
+    manualFile = file;
+    lastModified = Date.now();
+    readFile(file);
+    document.getElementById('btnRefresh').classList.remove('hidden');
+    updateSyncStatus(true);
+    startPolling();
+    if (!isRefresh) {
+      document.getElementById('urlInput').value = url;
+      localStorage.setItem('sgc_excel_url', url);
+    }
+    return true;
+  } catch(e) {
+    if (isRefresh) alert('远程刷新失败: ' + e.message);
+    return false;
+  }
+}
+
+function setRemoteUrl() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) { localStorage.removeItem('sgc_excel_url'); alert('已清除远程 URL'); return; }
+  localStorage.setItem('sgc_excel_url', url);
+  fetchFromUrl(url, true);
+}
+async function refreshData() {
+  if (fileHandle) { await loadFromHandle(); return; }
+  if (manualFile) {
+    readFile(manualFile);
+    updateSyncStatus(true);
+    return;
+  }
+  if (document.getElementById('fileInput').files.length > 0) {
+    manualFile = document.getElementById('fileInput').files[0];
+    readFile(manualFile);
+    updateSyncStatus(true);
+    return;
+  }
+  // Try remote URL
+  const url = localStorage.getItem('sgc_excel_url');
+  if (url) { await fetchFromUrl(url, true); return; }
+  alert('未找到数据源。请重新选择 Excel 文件，或设置远程数据 URL。');
+}
+
+function updateSyncStatus(active) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if (active) {
+    dot.className = 'sync-dot on';
+    txt.textContent = '已同步 ' + new Date().toLocaleTimeString();
+  } else {
+    dot.className = 'sync-dot off';
+    txt.textContent = '手动模式';
+  }
+}
+
+function startPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    try {
+      // Check File System Access API handle first
+      if (fileHandle) {
+        const file = await fileHandle.getFile();
+        if (file.lastModified > lastModified) {
+          lastModified = file.lastModified;
+          readFile(file);
+          updateSyncStatus(true);
+          return;
+        }
+      }
+      // Check manual file reference
+      if (manualFile && manualFile.lastModified > lastModified) {
+        lastModified = manualFile.lastModified;
+        readFile(manualFile);
+        updateSyncStatus(true);
+      }
+    } catch(e) {}
+  }, POLL_INTERVAL);
+}
+
+// ==================== SHEET SWITCHING ====================
+function switchSheet(name) {
+  currentSheetName = name;
+  currentTab = '全部';
+  document.getElementById('searchInput').value = '';
+  buildTabs();
+  buildSummary();
+  applyFilters();
+}
+
+// ==================== UI BUILD ====================
+function buildUI() {
+  document.getElementById('btnEncrypt').style.display = '';
+  buildTabs();
+  buildSummary();
+  applyFilters();
+}
+
+function buildTabs() {
+  const tabBar = document.getElementById('tabBar');
+  const subBar = document.getElementById('subTabBar');
+
+  // Sheet tabs
+  const sheetNames = sheetData.map(s => s.name);
+  let html = '';
+  sheetNames.forEach(name => {
+    const sheet = findSheet(name);
+    const cnt = sheet ? Math.max(0, sheet.rows.length - 1) : 0;
+    html += `<div class="tab ${currentSheetName===name?'active':''}" onclick="switchSheet('${name}')">${name}<span class="count">${cnt}</span></div>`;
+  });
+  html += `<div class="tab-right">
+    <span style="font-size:12px;color:var(--ink-2);">视图</span>
+    <div class="view-toggle">
+      <button class="view-btn ${currentView==='table'?'active':''}" data-view="table" onclick="setView('table')">表格</button>
+      <button class="view-btn ${currentView==='card'?'active':''}" data-view="card" onclick="setView('card')">卡片</button>
+    </div>
+    <button class="btn btn-export btn-sm" onclick="exportExcel()">导出 Excel</button>
+  </div>`;
+  tabBar.innerHTML = html;
+
+  // Sub-tabs: only for 投资概览
+  const isOverview = currentSheetName.includes('投资概览');
+  if (isOverview) {
+    subBar.classList.remove('hidden');
+    const s1 = findSheet('投资概览');
+    const phases = new Set();
+    if (s1) {
+      const phaseCol = findColIdx(s1.rows[0], ['项目阶段']);
+      for (let r = 1; r < s1.rows.length; r++) {
+        const p = String(s1.rows[r][phaseCol] || '').trim();
+        if (p) phases.add(p);
+      }
+    }
+    const phaseOrder = ['已投', '尽调中', '终止', '储备'];
+    const ordered = phaseOrder.filter(p => phases.has(p));
+    phases.forEach(p => { if (!ordered.includes(p)) ordered.push(p); });
+
+    let subHtml = `<div class="sub-tab ${currentTab==='全部'?'active':''}" onclick="setTab('全部')">全部<span class="count">${s1?s1.rows.length-1:0}</span></div>`;
+    ordered.forEach(p => {
+      subHtml += `<div class="sub-tab ${currentTab===p?'active':''}" onclick="setTab('${p}')">${p}<span class="count">${countPhase(p)}</span></div>`;
+    });
+    subHtml += `<div class="sub-tab star ${currentTab==='★'?'active':''}" onclick="setTab('★')">★ 我的关注<span class="count" id="starCount">${starred.length}</span></div>`;
+    subBar.innerHTML = subHtml;
+  } else {
+    subBar.classList.add('hidden');
+    subBar.innerHTML = '';
+  }
+}
+
+function countPhase(phase) {
+  const s1 = findSheet('投资概览');
+  if (!s1) return 0;
+  const phaseCol = findColIdx(s1.rows[0], ['项目阶段']);
+  if (phaseCol < 0) return 0;
+  let cnt = 0;
+  for (let r = 1; r < s1.rows.length; r++) {
+    if (String(s1.rows[r][phaseCol] || '').trim() === phase) cnt++;
+  }
+  return cnt;
+}
+
+function buildSummary() {
+  const s1 = findSheet('投资概览');
+  const s3 = findSheet('风险点');
+  const s4 = findSheet('日期');
+
+  let total = 0, invested = 0, dd = 0, stopped = 0, highRisk = 0, triggered = 0, upcoming = 0;
+
+  if (s1) {
+    const phaseCol = findColIdx(s1.rows[0], ['项目阶段']);
+    const statusCol = findColIdx(s1.rows[0], ['当前状态']);
+    total = Math.max(0, s1.rows.length - 1);
+    for (let r = 1; r < s1.rows.length; r++) {
+      const p = String(s1.rows[r][phaseCol] || '').trim();
+      const st = String(s1.rows[r][statusCol] || '').trim();
+      if (p === '已投') invested++;
+      else if (p === '尽调中') dd++;
+      else if (p === '终止') stopped++;
+      if (dangerKW.some(k => st.includes(k))) triggered++;
+    }
+  }
+  if (s3) {
+    for (let r = 1; r < s3.rows.length; r++) {
+      if (String(s3.rows[r][4] || '').trim() === '高') highRisk++;
+      if (dangerKW.slice(0,3).some(k => String(s3.rows[r][5]||'').includes(k))) triggered++;
+    }
+  }
+  if (s4) {
+    for (let r = 1; r < s4.rows.length; r++) {
+      const st = String(s4.rows[r][4] || '');
+      if (st.includes('临近')) upcoming++;
+      if (st.includes('逾期')) triggered++;
+    }
+  }
+
+  document.getElementById('summaryRow').innerHTML = `
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('全部')"><div class="summary-num">${total}</div><div class="summary-label">全部项目</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('已投')"><div class="summary-num">${invested}</div><div class="summary-label">已投</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('尽调中')"><div class="summary-num">${dd}</div><div class="summary-label">尽调中</div></div>
+    <div class="summary-card" onclick="switchSheet('投资概览');setTab('终止')"><div class="summary-num">${stopped}</div><div class="summary-label">终止</div></div>
+    <div class="summary-card summary-card--alert"><div class="summary-num">${highRisk}</div><div class="summary-label">高风险项</div></div>
+    <div class="summary-card summary-card--warn"><div class="summary-num">${upcoming}</div><div class="summary-label">临近到期</div></div>
+    <div class="summary-card summary-card--alert"><div class="summary-num">${triggered}</div><div class="summary-label">已触发/逾期</div></div>
+  `;
+}
+
+// ==================== DATA FILTERING ====================
+function getFilteredRows(sheet) {
+  if (!sheet || sheet.rows.length < 2) return { header: [], rows: [] };
+  const header = [...sheet.rows[0]];
+  let rows = sheet.rows.slice(1).map(r => [...r]);
+
+  // Compute date fields for key dates sheet
+  if (sheet.name && (sheet.name.includes('日期') || sheet.name.includes('关键'))) {
+    rows.forEach(r => computeDateFields(r));
+  }
+
+  // Phase filter (only for 投资概览)
+  if (sheet.name && sheet.name.includes('投资概览') && currentTab !== '全部' && currentTab !== '★') {
+    const phaseCol = findColIdx(header, ['项目阶段']);
+    if (phaseCol >= 0) rows = rows.filter(r => String(r[phaseCol] || '').trim() === currentTab);
+  }
+
+  // Star filter
+  if (currentTab === '★') {
+    const nameCol = findColIdx(header, ['项目名称']);
+    if (nameCol >= 0) rows = rows.filter(r => starred.includes(String(r[nameCol] || '').trim()));
+  }
+
+  // Search
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  if (search) rows = rows.filter(r => r.some(c => String(c || '').toLowerCase().includes(search)));
+
+  // Status select filter
+  const sf = document.getElementById('statusFilter').value;
+  if (sf) {
+    const sc = findColIdx(header, ['当前状态', '严重程度', '提醒']);
+    if (sc >= 0) rows = rows.filter(r => String(r[sc] || '').trim() === sf);
+  }
+
+  return { header, rows };
+}
+
+function applyFilters() {
+  const sheet = findSheet(currentSheetName) || sheetData[0];
+  if (!sheet) return;
+
+  const { header, rows } = getFilteredRows(sheet);
+  const statusFilter = document.getElementById('statusFilter');
+  const currentVal = statusFilter.value;
+  statusFilter.innerHTML = '<option value="">全部状态</option>';
+  const sc = findColIdx(header, ['当前状态', '严重程度', '提醒']);
+  if (sc >= 0) {
+    const vals = new Set();
+    sheet.rows.slice(1).forEach(r => { const v = String(r[sc] || '').trim(); if (v) vals.add(v); });
+    vals.forEach(v => {
+      const opt = document.createElement('option'); opt.value = v; opt.textContent = v;
+      if (v === currentVal) opt.selected = true;
+      statusFilter.appendChild(opt);
+    });
+  }
+
+  document.getElementById('resultCount').textContent = `${rows.length} 条结果`;
+
+  if (currentView === 'table') renderTable({ name: sheet.name, rows: [header, ...rows] });
+  else renderCards({ name: sheet.name, rows: [header, ...rows] });
+}
+
+// ==================== TABLE VIEW ====================
+let sortCol = -1, sortDir = 1;
+
+function renderTable(sheet) {
+  const wrapper = document.getElementById('tableWrapper');
+  const cardGrid = document.getElementById('cardGrid');
+  wrapper.parentElement.classList.remove('hidden');
+  cardGrid.classList.add('hidden');
+
+  if (sheet.rows.length < 2) {
+    wrapper.innerHTML = '<div class="empty-state"><div class="icon">📭</div><h3>暂无数据</h3></div>';
+    return;
+  }
+  const header = sheet.rows[0], dataRows = sheet.rows.slice(1);
+  const statusCol = findColIdx(header, ['当前状态', '严重程度', '提醒', '项目阶段']);
+
+  let filtered = [...dataRows];
+  if (sortCol >= 0) {
+    filtered.sort((a, b) => {
+      const va = String(a[sortCol] || '').trim(), vb = String(b[sortCol] || '').trim();
+      const na = parseFloat(va), nb = parseFloat(vb);
+      if (!isNaN(na) && !isNaN(nb)) return (na - nb) * sortDir;
+      return va.localeCompare(vb, 'zh') * sortDir;
+    });
+  }
+
+  // Build visible column indices (skip "是否在看板显示" and columns marked 否)
+  const visCols = [];
+  header.forEach((h, i) => {
+    if (String(h||'').includes('是否在看板显示')) return;
+    if (sheet.columnVisible && i < sheet.columnVisible.length && !sheet.columnVisible[i]) return;
+    visCols.push(i);
+  });
+
+  let html = '<table><thead><tr>';
+  visCols.forEach(i => {
+    const h = header[i];
+    html += `<th>${h||''}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+  filtered.forEach(row => {
+    html += '<tr>';
+    visCols.forEach(i => {
+      const val = row[i] !== undefined ? String(row[i]) : '';
+      html += `<td><div class="ci">${i === statusCol ? statusBadge(val) : escapeHtml(val)}</div></td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrapper.innerHTML = html;
+}
+
+function toggleSort(col) {
+  sortCol = sortCol === col ? (sortDir = -sortDir, col) : (sortDir = 1, col);
+  applyFilters();
+}
+
+// ==================== CARD VIEW (Integrated across all sheets) ====================
+function buildProjectIndex() {
+  const s1 = findSheet('投资概览');
+  const s2 = findSheet('特殊股东');
+  const s3 = findSheet('风险点');
+  const s4 = findSheet('日期');
+
+  const nameCol1 = s1 ? findColIdx(s1.rows[0], ['项目名称']) : -1;
+  const nameCol2 = s2 ? findColIdx(s2.rows[0], ['项目名称']) : -1;
+  const nameCol3 = s3 ? findColIdx(s3.rows[0], ['项目名称']) : -1;
+  const nameCol4 = s4 ? findColIdx(s4.rows[0], ['项目名称']) : -1;
+
+  // Index data by project name from each sheet
+  let idx1 = {}, idx2 = {}, idx3 = {}, idx4 = {};
+
+  if (s1 && nameCol1 >= 0) {
+    for (let r = 1; r < s1.rows.length; r++) {
+      const nm = String(s1.rows[r][nameCol1] || '').trim();
+      if (nm) idx1[nm] = s1.rows[r];
+    }
+  }
+  if (s2 && nameCol2 >= 0) {
+    for (let r = 1; r < s2.rows.length; r++) {
+      const nm = String(s2.rows[r][nameCol2] || '').trim();
+      if (nm) idx2[nm] = s2.rows[r];
+    }
+  }
+  if (s3 && nameCol3 >= 0) {
+    for (let r = 1; r < s3.rows.length; r++) {
+      const nm = String(s3.rows[r][nameCol3] || '').trim();
+      if (nm) { if (!idx3[nm]) idx3[nm] = []; idx3[nm].push(s3.rows[r]); }
+    }
+  }
+  if (s4 && nameCol4 >= 0) {
+    for (let r = 1; r < s4.rows.length; r++) {
+      const nm = String(s4.rows[r][nameCol4] || '').trim();
+      if (nm) { if (!idx4[nm]) idx4[nm] = []; idx4[nm].push(s4.rows[r]); }
+    }
+  }
+
+  return { idx1, idx2, idx3, idx4, s1, s2, s3, s4 };
+}
+
+function renderCards(sheet) {
+	try {
+		const wrapper = document.getElementById('tableWrapper');
+		const cardGrid = document.getElementById('cardGrid');
+		if (!wrapper || !cardGrid) return;
+		wrapper.parentElement.classList.add('hidden');
+		cardGrid.classList.remove('hidden');
+		cardGrid.innerHTML = '';
+
+		const { idx1, idx2, idx3, idx4, s1, s2, s3, s4 } = buildProjectIndex();
+		const projectNames = Object.keys(idx1);
+		if (projectNames.length === 0) {
+			cardGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">📭</div><h3>暂无项目数据</h3><p style="font-size:12px;margin-top:6px;">投资概览 Sheet 中未找到项目，请检查 Excel</p></div>';
+			return;
+		}
+
+		const roundCol = s1 ? findColIdx(s1.rows[0], ['轮次']) : -1;
+		const timeCol = s1 ? findColIdx(s1.rows[0], ['投资时间']) : -1;
+		const amountCol = s1 ? findColIdx(s1.rows[0], ['投资金额']) : -1;
+		const valCol = s1 ? findColIdx(s1.rows[0], ['投前估值']) : -1;
+		const shareCol = s1 ? findColIdx(s1.rows[0], ['持股比例']) : -1;
+		const phaseCol = s1 ? findColIdx(s1.rows[0], ['项目阶段']) : -1;
+		const statusCol = s1 ? findColIdx(s1.rows[0], ['当前状态']) : -1;
+		const bizCol = s1 ? findColIdx(s1.rows[0], ['主营业务']) : -1;
+
+		const rightsCol = s2 ? findColIdx(s2.rows[0], ['回购权利']) : -1;
+		const boardCol = s2 ? findColIdx(s2.rows[0], ['董事']) : -1;
+		const antiCol = s2 ? findColIdx(s2.rows[0], ['优先认购']) : -1;
+
+		const search = document.getElementById('searchInput').value.toLowerCase();
+		let displayed = 0;
+		let cardsHtml = '';
+
+		projectNames.forEach(name => {
+			const d1 = idx1[name];
+			if (!d1) return;
+
+			if (currentTab !== '全部' && currentTab !== '★') {
+				const p = String(d1[phaseCol] || '').trim();
+				if (p !== currentTab) return;
+			}
+			if (currentTab === '★' && !starred.includes(name)) return;
+			if (search) {
+				const allText = [name, ...d1.map(c => String(c||''))].join(' ').toLowerCase();
+				if (!allText.includes(search)) return;
+			}
+
+			displayed++;
+			const phase = String(d1[phaseCol] || '').trim();
+			const status = String(d1[statusCol] || '').trim();
+			const isStarred = starred.includes(name);
+
+			// Extract business keywords from 主营业务
+			const bizText = bizCol >= 0 ? String(d1[bizCol] || '').trim() : '';
+			let bizKeywords = '';
+			if (bizText) {
+				// Take first 1-2 comma/space-separated segments, max 12 chars
+				const parts = bizText.split(/[,，、\s]+/).filter(Boolean);
+				const kw = parts.slice(0, 2).join('·');
+				bizKeywords = kw.length > 14 ? kw.substring(0, 14) + '…' : kw;
+			}
+
+			const risks = idx3[name] || [];
+			const highRisks = risks.filter(r => String(r[4]||'').trim() === '高').length;
+
+			const dates = idx4[name] || [];
+
+			const d2 = idx2[name];
+			let rightsHtml = '';
+			if (d2) {
+				const lines = [];
+				const rv = String(d2[rightsCol]||'').trim();
+				if (rv && rv.length > 3 && rv !== '待补充') lines.push('<div class="line"><span class="dot">•</span><span><b>回购</b> '+escapeHtml(rv)+'</span></div>');
+				const bv = String(d2[boardCol]||'').trim();
+				if (bv && bv.length > 1 && bv !== '待补充') lines.push('<div class="line"><span class="dot">•</span><span><b>席位</b> '+escapeHtml(bv)+'</span></div>');
+				const av = String(d2[antiCol]||'').trim();
+				if (av && av.length > 1 && av !== '待补充') lines.push('<div class="line"><span class="dot">•</span><span><b>反稀释</b> '+escapeHtml(av)+'</span></div>');
+				if (lines.length > 0) {
+					rightsHtml = '<div class="card-section"><div class="card-section-title">特殊权利</div>'+lines.join('')+'</div>';
+				}
+			}
+
+			let riskHtml = '';
+			if (risks.length > 0) {
+				riskHtml = '<div class="card-section"><div class="card-section-title">风险点 ('+risks.length+'项'+(highRisks>0?'，高风险 '+highRisks+'项':'')+')</div>';
+				for (let i = 0; i < Math.min(risks.length, 3); i++) {
+					riskHtml += '<div class="line"><span class="dot">•</span>'+escapeHtml(String(risks[i][2]||'').substring(0,60))+'</div>';
+				}
+				if (risks.length > 3) riskHtml += '<div class="line" style="color:var(--ink-3)">...还有 '+(risks.length-3)+' 项</div>';
+				riskHtml += '</div>';
+			}
+
+			let dateHtml = '';
+			if (dates.length > 0) {
+				dateHtml = '<div class="card-section"><div class="card-section-title">关键日期</div>';
+				dates.forEach(d => {
+					dateHtml += '<div class="line"><span class="dot">•</span>'+escapeHtml(String(d[1]||''))+'：'+escapeHtml(String(d[2]||''))+' '+statusBadge(String(d[4]||''))+'</div>';
+				});
+				dateHtml += '</div>';
+			}
+
+			const safeName = escapeHtml(name).replace(/'/g, "\\'");
+			cardsHtml += '<div class="project-card '+(isStarred?'starred':'')+'" onclick="event.stopPropagation(); toggleStar(\''+safeName+'\', event)">'+
+				'<div class="card-main">'+
+					'<div class="card-header">'+
+						'<div class="card-title">'+escapeHtml(name)+'</div>'+
+						'<span class="card-star '+(isStarred?'active':'')+'" onclick="event.stopPropagation(); toggleStar(\''+safeName+'\', event)">★</span>'+
+					'</div>'+
+					'<div class="card-tags">'+
+						(bizKeywords ? '<span class="card-biz-kw">'+escapeHtml(bizKeywords)+'</span>' : '')+
+						phaseBadge(phase)+
+						(status ? statusBadge(status) : '')+
+					'</div>'+
+					'<div class="card-meta">'+
+						'<div class="card-meta-item"><span class="label">轮次</span><span class="value">'+escapeHtml(String(d1[roundCol]||'-'))+'</span></div>'+
+						'<div class="card-meta-item"><span class="label">时间</span><span class="value">'+escapeHtml(String(d1[timeCol]||'-'))+'</span></div>'+
+						'<div class="card-meta-item"><span class="label">金额(万)</span><span class="value">'+escapeHtml(String(d1[amountCol]||'-'))+'</span></div>'+
+						'<div class="card-meta-item"><span class="label">估值(万)</span><span class="value">'+escapeHtml(String(d1[valCol]||'-'))+'</span></div>'+
+						'<div class="card-meta-item"><span class="label">持股</span><span class="value">'+escapeHtml(String(d1[shareCol]||'-'))+'</span></div>'+
+					'</div>'+
+				'</div>'+
+				rightsHtml+
+				riskHtml+
+				dateHtml+
+			'</div>';
+		});
+
+		cardGrid.innerHTML = cardsHtml;
+
+		if (displayed === 0) {
+			cardGrid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">📭</div><h3>没有匹配的项目</h3></div>';
+		}
+		document.getElementById('resultCount').textContent = displayed + ' 个项目';
+	} catch(e) {
+		console.error('renderCards error:', e.message);
+		const cg = document.getElementById('cardGrid');
+		if (cg) cg.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>卡片渲染出错</h3><p style="font-size:12px;margin-top:6px;">'+e.message+'</p></div>';
+	}
+}
+
+// ==================== STAR TOGGLE ====================
+function toggleStar(name, event) {
+  if (event) { event.stopPropagation(); event.preventDefault(); }
+  const idx = starred.indexOf(name);
+  if (idx >= 0) starred.splice(idx, 1); else starred.push(name);
+  localStorage.setItem('sgc_starred', JSON.stringify(starred));
+  updateStarBadge();
+  applyFilters();
+}
+
+// ==================== TAB / VIEW SWITCH ====================
+function setTab(tab) {
+  currentTab = tab;
+  document.getElementById('searchInput').value = '';
+  buildTabs();
+  applyFilters();
+}
+
+function setView(view) {
+	if (view === 'card' && !currentSheetName.includes('投资概览')) {
+		currentSheetName = '投资概览';
+		currentTab = '全部';
+	}
+	currentView = view;
+	buildTabs();
+	if (view === 'card') buildSummary();
+	applyFilters();
+}
+
+// ==================== KEY DATES COMPUTATION ====================
+function computeDateFields(row) {
+  const dateStr = String(row[2] || '').trim();
+  if (!dateStr || dateStr === '待确认' || dateStr === '持续关注') { row[3]=''; row[4]='待确认'; return; }
+  try {
+    const target = new Date(dateStr); if (isNaN(target.getTime())) { row[3]=''; row[4]='待确认'; return; }
+    const today = new Date(); today.setHours(0,0,0,0); target.setHours(0,0,0,0);
+    const days = Math.ceil((target - today) / 86400000);
+    row[3] = String(days);
+    if (days < 0) row[4] = '已逾期'; else if (days <= 90) row[4] = '临近到期'; else row[4] = '正常';
+  } catch(e) { row[3]=''; row[4]='待确认'; }
+}
+
+// ==================== EXPORT ====================
+function exportExcel() {
+  const sheet = findSheet(currentSheetName) || sheetData[0];
+  if (!sheet) return;
+  const { header, rows } = getFilteredRows(sheet);
+  const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, sheet.name || '导出');
+  const now = new Date();
+  const fname = `歌华丝路_${sheet.name||'导出'}_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.xlsx`;
+  XLSX.writeFile(wb, fname);
+}
+
+// ==================== ENCRYPTED EXPORT ====================
+async function encryptAndExport() {
+  if (!sheetData || sheetData.length === 0) { alert('请先加载 Excel 数据'); return; }
+  const pw = prompt('设置加密密码（分享给同事的密码，至少 4 位）：');
+  if (!pw || pw.length < 4) { alert('密码至少 4 位'); return; }
+
+  try {
+    // Generate salt + IV
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    // PBKDF2 derive key
+    const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+      km, { name: 'AES-GCM', length: 256 }, false, ['encrypt']
+    );
+
+    // Encrypt data
+    const plaintext = new TextEncoder().encode(JSON.stringify(sheetData));
+    const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext);
+
+    // Base64 encode
+    const toB64 = (arr) => btoa(String.fromCharCode(...new Uint8Array(arr)));
+    const saltB64 = toB64(salt), ivB64 = toB64(iv), ctB64 = toB64(ciphertext);
+
+    // Build export HTML — clone current document, replace init
+    const htmlSrc = document.documentElement.outerHTML;
+
+    // Find the closing 
+<script>
+const _SALT='yeqOfWFiR2aFQX1i8Rao/w==',_IV='x7+79pSScfkGbMv9',_CT='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';
+(function(){
+var overlay=document.createElement('div');
+overlay.className='pw-overlay';
+overlay.id='pwGate';
+overlay.innerHTML='<div class="pw-box"><h2>歌华丝路基金项目风险控制表</h2><div class="pw-sub">请输入密码查看</div><input type="password" id="pwInput" placeholder="输入密码后按回车" autofocus><div class="pw-err" id="pwErr"></div></div>';
+document.body.appendChild(overlay);
+var inp=document.getElementById('pwInput');
+inp.addEventListener('keydown',async function(e){
+  if(e.key!=='Enter')return;
+  var pw=e.target.value;
+  if(!pw)return;
+  try{
+    var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+    var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(_SALT),c=>c.charCodeAt(0)),iterations:100000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+    var ct=Uint8Array.from(atob(_CT),c=>c.charCodeAt(0));
+    var plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:Uint8Array.from(atob(_IV),c=>c.charCodeAt(0))},key,ct);
+    sheetData=JSON.parse(new TextDecoder().decode(plain));
+    document.getElementById('pwGate').remove();
+    buildUI();
+    document.getElementById('dropZone').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+    document.getElementById('btnSelect').textContent='已加密载入';
+    document.getElementById('syncText').textContent='🔒 加密模式';
+    document.getElementById('syncDot').className='sync-dot on';
+  }catch(ex){
+    document.getElementById('pwErr').textContent='密码错误，请重试';
+    e.target.value='';
+  }
+});
+})();
+</script>
+</body> tag and inject the password-gate script before it
+    const pwScript = `
+<script>
+const _SALT='${saltB64}',_IV='${ivB64}',_CT='${ctB64}';
+(function(){
+var overlay=document.createElement('div');
+overlay.className='pw-overlay';
+overlay.id='pwGate';
+overlay.innerHTML='<div class="pw-box"><h2>歌华丝路基金项目风险控制表</h2><div class="pw-sub">请输入密码查看</div><input type="password" id="pwInput" placeholder="输入密码后按回车" autofocus><div class="pw-err" id="pwErr"></div></div>';
+document.body.appendChild(overlay);
+var inp=document.getElementById('pwInput');
+inp.addEventListener('keydown',async function(e){
+  if(e.key!=='Enter')return;
+  var pw=e.target.value;
+  if(!pw)return;
+  try{
+    var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+    var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:Uint8Array.from(atob(_SALT),c=>c.charCodeAt(0)),iterations:100000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+    var ct=Uint8Array.from(atob(_CT),c=>c.charCodeAt(0));
+    var plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:Uint8Array.from(atob(_IV),c=>c.charCodeAt(0))},key,ct);
+    sheetData=JSON.parse(new TextDecoder().decode(plain));
+    document.getElementById('pwGate').remove();
+    buildUI();
+    document.getElementById('dropZone').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+    document.getElementById('btnSelect').textContent='已加密载入';
+    document.getElementById('syncText').textContent='🔒 加密模式';
+    document.getElementById('syncDot').className='sync-dot on';
+  }catch(ex){
+    document.getElementById('pwErr').textContent='密码错误，请重试';
+    e.target.value='';
+  }
+});
+})();
+<\/script>`;
+
+    // Remove the encrypt button and URL/token inputs from export (not needed for viewers)
+    let exportHtml = htmlSrc;
+    exportHtml = exportHtml.replace(/<button[^>]*btnEncrypt[^>]*>.*?<\/button>/g, '');
+    exportHtml = exportHtml.replace(/<input[^>]*tokenInput[^>]*>/g, '');
+    exportHtml = exportHtml.replace(/<input[^>]*urlInput[^>]*>/g, '');
+
+    // Also remove EMBEDDED_DATA from source (encrypted data replaces it)
+    exportHtml = exportHtml.replace(/<script>\nconst EMBEDDED_DATA = .*?<\/script>\n/g, '');
+
+    // Insert password gate script before </body>
+    exportHtml = exportHtml.replace('</body>', pwScript + '\n</body>');
+
+    // Update footer
+    exportHtml = exportHtml.replace(
+      /<div class="footer">.*?<\/div>/,
+      '<div class="footer">🔒 加密版 · 输入密码后解密数据 · 数据不在服务器留存</div>'
+    );
+
+    // Download
+    const blob = new Blob([exportHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '歌华丝路基金项目风险控制表_加密版.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    alert('✅ 加密版已生成！\n\n发送给同事，告知密码即可。\n文件可放心放在公开 GitHub 上。');
+  } catch(e) {
+    alert('加密失败: ' + e.message);
+  }
+}
+
+// ==================== INIT ====================
+function switchTheme(name) { applyTheme(name); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  initThemeSelector();
+
+  const input = document.createElement('input');
+  input.type = 'file'; input.id = 'fileInput'; input.accept = '.xlsx,.xls';
+  input.className = 'hidden'; input.onchange = handleFileEvent;
+  document.body.appendChild(input);
+
+  // Embedded data (self-contained mode) — load immediately, skip file prompt
+  if (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA.length > 0) {
+    sheetData = EMBEDDED_DATA;
+    buildUI();
+    document.getElementById('dropZone').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+    document.getElementById('btnSelect').textContent = '重新选择';
+    document.getElementById('syncText').textContent = '自包含模式 · ' + EMBEDDED_DATA.length + ' Sheet';
+    document.getElementById('syncDot').className = 'sync-dot on';
+    document.getElementById('btnRefresh').classList.remove('hidden');
+    // Still allow remote URL to override
+    const savedUrl = localStorage.getItem('sgc_excel_url');
+    if (savedUrl) document.getElementById('urlInput').value = savedUrl;
+    const params = new URLSearchParams(window.location.search);
+    const queryUrl = params.get('url');
+    if (queryUrl) { document.getElementById('urlInput').value = queryUrl; fetchFromUrl(queryUrl, false); }
+    return;
+  }
+
+  // Auto-fetch from remote URL if configured
+  const savedUrl = localStorage.getItem('sgc_excel_url');
+  if (savedUrl) {
+    document.getElementById('urlInput').value = savedUrl;
+    fetchFromUrl(savedUrl, false);
+  }
+
+  // Check ?url= query parameter (for sharing)
+  const params = new URLSearchParams(window.location.search);
+  const queryUrl = params.get('url');
+  if (queryUrl && queryUrl !== savedUrl) {
+    document.getElementById('urlInput').value = queryUrl;
+    fetchFromUrl(queryUrl, false);
+  }
+
+  document.addEventListener('dragover', e => { e.preventDefault(); });
+  document.addEventListener('drop', async e => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      manualFile = file;
+      lastModified = file.lastModified;
+      readFile(file);
+      document.getElementById('btnRefresh').classList.remove('hidden');
+      updateSyncStatus(true);
+      startPolling();
+    }
+  });
+});
+</script>
+
+
+<input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden"></body></html>
